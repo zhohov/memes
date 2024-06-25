@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  memes_service:
+    container_name: memes_service
+    build:
+      context: ./backend/memes_service
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend/memes_service:/backend/memes_service
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
