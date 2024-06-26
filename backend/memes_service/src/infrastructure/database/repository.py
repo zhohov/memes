@@ -2,21 +2,21 @@ from typing import TypeVar, Generic, Any
 from sqlalchemy import Result, asc, delete, desc, func, select, update
 
 from .session import Session
+from .base import Base
+
+T = TypeVar("T", bound=Base)
 
 
-_T = TypeVar("_T")
-
-
-class BaseRepository(Session, Generic[_T]):
-    schema_class: type[_T]
+class BaseRepository(Session, Generic[T]):
+    _schema_class: type[T]
 
     def __init__(self) -> None:
         super().__init__()
 
-        if not self.schema_class:
+        if not self._schema_class:
             raise Exception("schema_class is not set")
         
-    async def _get(self, key: str, value: Any) -> _T:
+    async def _get(self, key: str, value: Any) -> T:
         query = select(self.schema_class).where(
             getattr(self.schema_class, key) == value
         )
@@ -27,12 +27,12 @@ class BaseRepository(Session, Generic[_T]):
         
         return  _result
     
-    async def _all(self)  -> list[_T]:
+    async def _all(self)  -> list[T]:
         query = select(self.schema_class)
         result: Result  = await self._session.execute(query)
         return  result.scalars().all()
         
-    async def _save(self, payload: dict[str, Any]) -> _T:
+    async def _save(self, payload: dict[str, Any]) -> T:
         try: 
             schema = self.schema_class(**payload)
             self._session.add(schema)
