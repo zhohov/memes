@@ -14,6 +14,7 @@ uvicorn = "^0.30.1"
 alembic = "^1.13.1"
 asyncpg = "^0.29.0"
 pydantic-settings = "^2.3.4"
+minio = "^7.2.7"
 
 
 [build-system]
