@@ -1,4 +1,9 @@
-__all__ = ("BaseRepository", "Meme",)
+__all__ = (
+    "Base",
+    "BaseRepository",
+    "MemesTable",
+)
 
+from .base import Base
 from .repository import BaseRepository
-from .tables import Meme
+from .tables import MemesTable

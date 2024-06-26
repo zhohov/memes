@@ -1,3 +1,3 @@
-__all__ = ("MemesRepository")
+__all__ = ("MemesRepository",)
 
 from .repository import MemesRepository

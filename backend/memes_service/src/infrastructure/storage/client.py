@@ -1,13 +1,14 @@
-from typing import Any
 import uuid
 from datetime import timedelta
+
+from fastapi import HTTPException, UploadFile
 from minio import Minio
 from minio.error import S3Error
+
 from src.config import settings
-from fastapi import UploadFile, HTTPException
 
 
-def get_client() -> Minio:  
+def get_client() -> Minio:
     client = Minio(
         endpoint=settings.storage.endpoint,
         access_key=settings.storage.access_key,
@@ -36,26 +37,27 @@ class StorageClient:
             bucket_name=settings.s3.minio_bucket,
             object_name=filename,
             data=file.file,
-            length=-1, 
-            part_size=10*1024*1024,
-            content_type=file.content_type
+            length=-1,
+            part_size=10 * 1024 * 1024,
+            content_type=file.content_type,
         )
 
         return filename
-    
+
     def _get_file_url(self, filename: str) -> str:
         """Get a presigned URL for the file in the Minio bucket."""
 
         try:
-            self._client.stat_object(bucket_name=settings.s3.minio_bucket, object_name=filename)
+            self._client.stat_object(
+                bucket_name=settings.s3.minio_bucket, object_name=filename
+            )
 
             url: str = self._client.presigned_get_object(
-                bucket_name=settings.s3.minio_bucket, 
+                bucket_name=settings.s3.minio_bucket,
                 object_name=filename,
-                expires=timedelta(seconds=8)
+                expires=timedelta(seconds=8),
             )
 
             return url
         except S3Error as e:
             raise HTTPException(status_code=500, detail=str(e))
-        

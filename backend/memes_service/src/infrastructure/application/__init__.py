@@ -1,3 +1,3 @@
-__all__ = ("create")
+__all__ = ("create",)
 
 from .factory import create

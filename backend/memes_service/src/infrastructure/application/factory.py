@@ -1,5 +1,6 @@
 from typing import Any
-from fastapi import FastAPI, APIRouter
+
+from fastapi import APIRouter, FastAPI
 
 
 def create(
@@ -7,7 +8,7 @@ def create(
     routers: list[APIRouter],
     **kwargs: dict[str, Any],
 ) -> FastAPI:
-    
+
     app: FastAPI = FastAPI(**kwargs)
 
     for router in routers:

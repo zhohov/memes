@@ -4,12 +4,7 @@ from fastapi import FastAPI
 from config import settings
 from infrastructure.application import create
 
-
-app: FastAPI = create(
-    title=settings.app_name,
-    debug=settings.debug,
-    routers=[]
-)
+app: FastAPI = create(title=settings.app_name, debug=settings.debug, routers=[])
 
 
 if __name__ == "__main__":

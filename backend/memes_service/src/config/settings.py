@@ -15,15 +15,15 @@ class DatabaseSettings(BaseSettings):
 
 
 class StorageSettings(BaseSettings):
-    endpoint: str = Field(..., env="MINIO_ENDPOINT")
-    access_key: str = Field(..., env="MINIO_ACCESS_KEY")
-    secret_key: str = Field(..., env="MINIO_SECRET_KEY")
-    bucket_name: str = Field(..., env="MINIO_BUCKET_NAME")
-    secure: bool = Field(default=False, env="MINIO_SECURE")
+    endpoint: str = Field(..., env="ENDPOINT")
+    access_key: str = Field(..., env="ACCESS_KEY")
+    secret_key: str = Field(..., env="SECRET_KEY")
+    bucket_name: str = Field(..., env="BUCKET_NAME")
+    secure: bool = Field(default=False, env="SECURE")
 
 
 class Settings(BaseSettings):
-    app_name: str = Field(default="FastAPI", env="TITLE")
+    app_name: str = Field(default="FastAPI", env="APP_NAME")
     debug: bool = Field(default=True, env="DEBUG")
 
     database: DatabaseSettings = DatabaseSettings()
@@ -34,4 +34,4 @@ class Settings(BaseSettings):
         env_file_encoding = "utf-8"
 
 
-settings: Settings = Settings()
+settings = Settings()
