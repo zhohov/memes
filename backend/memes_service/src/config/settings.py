@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     app_name: str = Field(default="FastAPI", env="TITLE")
     debug: bool = Field(default=True, env="DEBUG")
 
-    database: DatabaseSettings  = DatabaseSettings()
+    database: DatabaseSettings = DatabaseSettings()
 
     class Config:
         env_file = ".env"
