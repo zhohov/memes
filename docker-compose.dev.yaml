@@ -12,6 +12,8 @@ services:
       - "8000:8000"
     env_file:
       - .env
+    networks:
+      - minio-local
 
   db:
     image: postgres:16.2
@@ -41,6 +43,27 @@ services:
       - db
     volumes:
       - pgadmin-data:/var/lib/pgadmin
+
+  minio:
+    image: minio/minio
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=${MINIO_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_PASSWORD}
+      - MINIO_DEFAULT_BUCKETS=${MINIO_DEFAULT_BUCKETS}
+    env_file:
+      - .env
+    volumes:
+      - minio-data:/var/lib/minio
+    networks:
+      - minio-local
+
+networks:
+  minio-local:
+    driver: bridge
 
 volumes:
   pgdata:

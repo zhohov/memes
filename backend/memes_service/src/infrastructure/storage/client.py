@@ -12,7 +12,7 @@ def get_client() -> Minio:
         endpoint=settings.storage.endpoint,
         access_key=settings.storage.access_key,
         secret_key=settings.storage.secret_key,
-        secure=False,
+        secure=settings.storage.secure,
     )
 
     return client
