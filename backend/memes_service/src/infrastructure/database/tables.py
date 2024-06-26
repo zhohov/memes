@@ -26,7 +26,7 @@ class TimestampMixin:
     )
 
 
-class Meme(Base, IdMixin, TimestampMixin):
+class MemesTable(Base, IdMixin, TimestampMixin):
     __tablename__ = "memes"
 
     title: Mapped[str] = mapped_column(nullable=False)
