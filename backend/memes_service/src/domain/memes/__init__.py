@@ -1,3 +1,8 @@
-__all__ = ("MemesRepository",)
+__all__ = (
+    "memes_repository",
+    "MemeCreate",
+    "Meme",
+)
 
-from .repository import MemesRepository
+from .models import Meme, MemeCreate
+from .repository import memes_repository

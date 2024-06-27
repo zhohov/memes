@@ -5,7 +5,7 @@ from fastapi import HTTPException, UploadFile
 from minio import Minio
 from minio.error import S3Error
 
-from src.config import settings
+from config import settings
 
 
 def get_client() -> Minio:
@@ -34,7 +34,7 @@ class StorageClient:
         filename: str = self._get_filename(filename=file.filename)
 
         self._client.put_object(
-            bucket_name=settings.s3.minio_bucket,
+            bucket_name=settings.storage.bucket_name,
             object_name=filename,
             data=file.file,
             length=-1,
@@ -49,11 +49,11 @@ class StorageClient:
 
         try:
             self._client.stat_object(
-                bucket_name=settings.s3.minio_bucket, object_name=filename
+                bucket_name=settings.storage.bucket_name, object_name=filename
             )
 
             url: str = self._client.presigned_get_object(
-                bucket_name=settings.s3.minio_bucket,
+                bucket_name=settings.storage.bucket_name,
                 object_name=filename,
                 expires=timedelta(seconds=8),
             )
@@ -61,3 +61,6 @@ class StorageClient:
             return url
         except S3Error as e:
             raise HTTPException(status_code=500, detail=str(e))
+
+
+client = StorageClient()

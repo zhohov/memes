@@ -18,8 +18,8 @@ class BaseRepository(Session, Generic[T]):
             raise Exception("schema_class is not set")
 
     async def _get(self, key: str, value: Any) -> T:
-        query = select(self.schema_class).where(
-            getattr(self.schema_class, key) == value
+        query = select(self._schema_class).where(
+            getattr(self._schema_class, key) == value
         )
         result: Result = await self.execute(query)
 
@@ -29,16 +29,16 @@ class BaseRepository(Session, Generic[T]):
         return _result
 
     async def _all(self) -> list[T]:
-        query = select(self.schema_class)
+        query = select(self._schema_class)
         result: Result = await self._session.execute(query)
         return result.scalars().all()
 
     async def _save(self, payload: dict[str, Any]) -> T:
         try:
-            schema = self.schema_class(**payload)
+            schema = self._schema_class(**payload)
             self._session.add(schema)
             await self._session.flush()
-            await self._session.refresh()
+            await self._session.refresh(schema)
             return schema
         except self._ERRORS:
             raise
