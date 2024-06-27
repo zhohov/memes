@@ -30,4 +30,4 @@ class MemesTable(Base, IdMixin, TimestampMixin):
     __tablename__ = "memes"
 
     title: Mapped[str] = mapped_column(nullable=False)
-    image_url: Mapped[str] = mapped_column(nullable=False)
+    image_name: Mapped[str] = mapped_column(nullable=False)
