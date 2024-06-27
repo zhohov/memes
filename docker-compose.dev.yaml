@@ -57,6 +57,17 @@ services:
     volumes:
       - minio-data:/var/lib/minio
 
+  nginx:
+    build:
+      context: ./nginx
+    volumes:
+      - minio-data:/var/lib/minio
+    ports:
+      - "81:81"
+    depends_on:
+      - db
+      - memes_service
+
 volumes:
   pgdata:
   pgadmin-data:
