@@ -60,8 +60,6 @@ services:
   nginx:
     build:
       context: ./nginx
-    volumes:
-      - minio-data:/var/lib/minio
     ports:
       - "81:81"
     depends_on:
