@@ -28,6 +28,7 @@ services:
       - pgdata:/var/lib/postgresql/data 
 
   pgadmin:
+    container_name: pgadmin
     image: dpage/pgadmin4
     restart: always
     environment:
@@ -36,7 +37,7 @@ services:
     env_file:
       - .env
     ports:
-      - "8888:80"
+      - "5050:80"
     depends_on:
       - db
     volumes:
@@ -58,13 +59,16 @@ services:
       - minio-data:/var/lib/minio
 
   nginx:
-    build:
-      context: ./nginx
+    container_name: nginx
+    image: nginx
+    volumes:
+      - ./nginx/dev/nginx.conf:/etc/nginx/nginx.conf
     ports:
-      - "81:81"
+      - "80:80"
     depends_on:
       - db
       - memes_service
+      - pgadmin
 
 volumes:
   pgdata:

@@ -2,8 +2,8 @@ import uuid
 from datetime import timedelta
 
 from fastapi import HTTPException, UploadFile
-from minio import Minio
-from minio.error import S3Error
+from minio import Minio # type: ignore
+from minio.error import S3Error # type: ignore
 
 from config import settings
 
